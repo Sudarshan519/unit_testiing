@@ -20,8 +20,6 @@ abstract class RestClient {
       @Query("key") String apiKey, @Body() Map<String, dynamic> bodyParams);
 }
 
-
-
 @JsonSerializable()
 class LoginResponse {
   @JsonKey(name: "error")
@@ -60,7 +58,7 @@ class SignUpResponse {
   String? email;
 
   @JsonKey(name: "expiresIn")
-  int? expiresIn;
+  String? expiresIn;
 
   @JsonKey(name: "localId")
   String? localId;

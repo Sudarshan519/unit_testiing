@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' as getx;
 import 'package:logger/logger.dart';
-import 'package:reqres/app/modules/home/repository/data_source/rest_client.dart';
+import 'package:reqres/app/modules/home/repository/data/data_source/rest_client.dart'; 
 import 'package:reqres/main.dart';
 
 class AuthProvider {
@@ -23,23 +23,27 @@ class AuthProvider {
     };
     try {
       var res = await restClient.signup(apiKey, loginData).catchError((obj) {
-        final res = (obj as DioError).response;
-        errResp = res!.data!['error']['message'];
+        print(obj);
         switch (obj.runtimeType) {
           case DioError:
+            final res = (obj as DioError).response;
+            errResp = res!.data!['error']['message'];
             if (kDebugMode) {
               logger.e(
                   "Got error : ${res.statusCode} -> ${res.data['error']['message']}");
             }
-            break;
+            throw ServerExeption(message: errResp.toString(), statusCode: 400);
+
           default:
+            print(obj);
             break;
         }
       });
 
       return res;
     } catch (e) {
-      throw ServerExeption(message: errResp.toString());
+      print(e.toString());
+      throw ServerExeption(message: errResp.toString(), statusCode: 400);
     }
   }
 
@@ -51,7 +55,9 @@ class AuthProvider {
     var errResp;
     try {
       var res = await restClient.signin(apiKey, loginData).catchError((obj) {
+        print(obj);
         final res = (obj as DioError).response;
+        print(res);
         errResp = res!.data!['error']['message'];
         switch (obj.runtimeType) {
           case DioError:
@@ -59,15 +65,18 @@ class AuthProvider {
               logger.e(
                   "Got error : ${res.statusCode} -> ${res.data['error']['message']}");
             }
-            break;
+            throw ServerExeption(
+                message: errResp.toString(), statusCode: res.statusCode);
+
           default:
-            break;
+            throw ServerExeption(
+                message: errResp.toString(), statusCode: res.statusCode);
         }
       });
 
       return res;
     } catch (e) {
-      throw ServerExeption(message: errResp.toString());
+      throw ServerExeption(message: errResp.toString(), statusCode: 400);
     }
   }
 }

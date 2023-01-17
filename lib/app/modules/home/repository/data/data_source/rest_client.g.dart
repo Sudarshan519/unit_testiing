@@ -38,7 +38,7 @@ SignUpResponse _$SignUpResponseFromJson(Map<String, dynamic> json) =>
       json['idToken'] as String?,
       json['refresh_token'] as String?,
       json['email'] as String?,
-      json['expiresIn'] as int?,
+      json['expiresIn'] as String?,
       json['localId'] as String?,
     );
 

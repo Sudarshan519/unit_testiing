@@ -9,29 +9,29 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   final formKey = GlobalKey<FormState>();
-  parseJsonFromAssets(String assetsPath) async {
-    print('--- Parse json from: $assetsPath');
-    rootBundle.loadString(assetsPath).then((jsonStr) {
-      jsonDecode(jsonStr);
-      print(jsonStr);
-    });
-  }
+  // parseJsonFromAssets(String assetsPath) async {
+  // print('--- Parse json from: $assetsPath');
+  // rootBundle.loadString(assetsPath).then((jsonStr) {
+  //   jsonDecode(jsonStr);
+  //   print(jsonStr);
+  // });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final ConfigReader configReader = Get.find();
-    print(configReader.config);
+    // final ConfigReader configReader = Get.find();
+    // print(configReader.config);
     return Scaffold(
       appBar: AppBar(
         title: Text('HomeView'),
-        centerTitle: true,
+        centerTitle: false,
         actions: [],
       ),
       body: Column(children: [
         Expanded(
           child: Obx(
             () => controller.users.isEmpty
-                ? CircularProgressIndicator()
+                ? Center(child: CircularProgressIndicator())
                 : ListView.builder(
                     itemCount: controller.users.length,
                     itemBuilder: (_, i) => ListTile(
@@ -64,8 +64,9 @@ class HomeView extends GetView<HomeController> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      controller.login();
+                    // if (formKey.currentState!.validate())
+                    {
+                      controller.register();
                     }
                   },
                   child: Text("Signup"))
